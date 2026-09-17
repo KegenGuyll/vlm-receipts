@@ -1,0 +1,6 @@
+node_modules/
+dist-web/
+.probe/
+fixtures/
+results/
+*.log

@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>VLM Receipt Benchmark Harness</title>
+    <style>
+      :root { color-scheme: dark; }
+      body {
+        margin: 0; padding: 1.25rem;
+        font: 14px/1.5 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+        background: #0f1115; color: #d7dae0;
+      }
+      h1 { font-size: 1rem; margin: 0 0 0.5rem; color: #8ab4f8; }
+      #status { color: #fdd663; margin-bottom: 0.75rem; }
+      #log { white-space: pre-wrap; word-break: break-word; }
+      .ok { color: #81c995; }
+      .err { color: #f28b82; }
+      .dim { color: #9aa0a6; }
+    </style>
+  </head>
+  <body>
+    <h1>VLM Receipt Benchmark Harness</h1>
+    <div id="status">booting…</div>
+    <div id="log"></div>
+
+    <script type="module">
+      const status = document.getElementById('status');
+      const log = document.getElementById('log');
+      const line = (text, cls = '') => {
+        const el = document.createElement('div');
+        if (cls) el.className = cls;
+        el.textContent = text;
+        log.appendChild(el);
+      };
+
+      window.__VLM_LOG__ = line;
+
+      import('./bench-api.js')
+        .then(async () => {
+          status.textContent = 'harness ready';
+          status.className = 'ok';
+          const info = await window.__VLM_BENCH__.ping();
+          line(`userAgent: ${info.userAgent}`);
+          line(`crossOriginIsolated: ${info.crossOriginIsolated}`);
+          line(`hardwareConcurrency: ${info.hardwareConcurrency}`);
+          line(`deviceMemory: ${info.deviceMemory ?? 'n/a'}`);
+          line(`gpu: ${JSON.stringify(info.gpu)}`);
+        })
+        .catch((err) => {
+          status.textContent = `harness FAILED: ${err.message}`;
+          status.className = 'err';
+          line(String(err.stack ?? err), 'err');
+          window.__VLM_BENCH_ERROR__ = String(err?.message ?? err);
+        });
+    </script>
+  </body>
+</html>

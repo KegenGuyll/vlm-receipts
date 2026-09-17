@@ -1,0 +1,38 @@
+{
+  "name": "vlm-receipts",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Benchmark harness for small (<1B) vision-language models parsing receipts in-browser via WebGPU, targeting a personal-finance PWA.",
+  "scripts": {
+    "serve": "node scripts/serve.mjs",
+    "serve:watch": "vite",
+    "bench": "node scripts/run-benchmark.mjs",
+    "test": "node --test tests/schema.test.mjs",
+    "check:compat": "node scripts/compatibility-check.mjs",
+    "probe:gpu": "node scripts/probe-webgpu.mjs",
+    "probe:model": "node scripts/probe-model.mjs",
+    "probe:models": "node scripts/discover-onnx-models.mjs",
+    "probe:extras": "node scripts/check-extra-models.mjs",
+    "footprint": "node scripts/model-footprint.mjs",
+    "fixtures": "node scripts/extract-parquet-fixtures.mjs",
+    "fixtures:viewer": "node scripts/fetch-fixtures.mjs",
+    "report": "node scripts/report.mjs",
+    "charts": "node scripts/charts.mjs",
+    "dashboard": "node scripts/dashboard.mjs",
+    "dashboard:serve": "node scripts/serve-dashboard.mjs",
+    "merge": "node scripts/merge-results.mjs",
+    "screenshot": "node scripts/screenshot.mjs"
+  },
+  "dependencies": {
+    "@huggingface/transformers": "^4.3.0",
+    "@huggingface/transformers-structured-output": "^4.3.0",
+    "hyparquet": "^1.31.0",
+    "hyparquet-compressors": "^1.1.1"
+  },
+  "devDependencies": {
+    "playwright-core": "^1.63.0",
+    "typescript": "^5.9.3",
+    "vite": "^8.3.0"
+  }
+}

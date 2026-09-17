@@ -1,0 +1,18 @@
+# Normalize line endings to LF in the repository.
+#
+# Without this, Git on Windows rewrites checked-out files to CRLF, which produces
+# a wall of warnings on every add and makes the working tree differ from the
+# committed bytes. The source is authored and generated on Windows, so pinning LF
+# keeps diffs clean and the generated artifacts (SVG, HTML) byte-stable.
+* text=auto eol=lf
+
+# Binary artifacts must never be text-normalized.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.parquet binary
+
+# Generated output is line-ending sensitive only insofar as it is diffed; keep LF.
+*.svg text eol=lf
+*.html text eol=lf
+*.md text eol=lf
